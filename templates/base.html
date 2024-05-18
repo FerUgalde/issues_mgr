@@ -21,6 +21,10 @@
                 <div class="navbar-nav">
                     <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
                     <a class="nav-link" href="{% url 'about' %}">About </a>
+                    <a class="nav-link" href="{% url 'board' %}">Board Issues </a>
+                    {% if user.role.name == "product owner" %}
+                    <a class="nav-link" href="{% url 'new' %}">New Issue </a>
+                    {% endif %}
                 </div>
             </div>
         </div>

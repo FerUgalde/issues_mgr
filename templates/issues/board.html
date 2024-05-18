@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Board{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome to the Board Page</h1>
+    <div class="row">
+        <div class="col board-col">
+            <h3>To Do</h3>
+            {% for issue in to_do_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ issue.name }}</h5>
+                    <h6 class="card-subtitle mb-2">{{ issue.summary|truncatechars:64 }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Assignee: {{ issue.assigne }}</h6>
+                    <p class="card-text">{{ issue.description|truncatechars:128 }}</p>
+                    <form method="post" action="{% url 'update_status' issue.id %}">
+                        <input type="hidden" name="status" id="id_status" value="2">
+                        {% csrf_token %}
+                        <input type="submit" value="Start" class="btn btn-success card-btn">
+                    </form>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col board-col">
+            <h3>In Progress</h3>
+            {% for issue in in_progress_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ issue.name }}</h5>
+                    <h6 class="card-subtitle mb-2">{{ issue.summary|truncatechars:64 }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Assignee: {{ issue.assigne }}</h6>
+                    <p class="card-text">{{ issue.description|truncatechars:128 }}</p>
+                    <form method="post" action="{% url 'update_status' issue.id %}">
+                        <input type="hidden" name="status" id="id_status" value="3">
+                        {% csrf_token %}
+                        <input type="submit" value="Finish" class="btn btn-success card-btn">
+                    </form>
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="col board-col">
+            <h3>Done</h3>
+            {% for issue in done_list %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ issue.name }}</h5>
+                    <h6 class="card-subtitle mb-2">{{ issue.summary|truncatechars:64 }}</h6>
+                    <h6 class="card-subtitle mb-2 text-body-secondary">Assignee: {{ issue.assigne }}</h6>
+                    <p class="card-text">{{ issue.description|truncatechars:128 }}</p>
+                    {% if user.role.name == "scrum master" %}
+                    <form method="post" action="{% url 'update_status' issue.id %}">
+                        <input type="hidden" name="status" id="id_status" value="1">
+                        {% csrf_token %}
+                        <input type="submit" value="Return" class="btn btn-success card-btn">
+                    </form>
+                    {% endif %}
+
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    {% endblock content %}

@@ -26,6 +26,7 @@ class Issue(models.Model):
         related_name="assignee"
     )
     created_on = models.DateTimeField(auto_now_add=True)
+    status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
     is_done = models.BooleanField(default=False)
 
     def get_absolute_url(self):
